@@ -4,7 +4,8 @@
 </script>
 
 <div>Hello world</div>
-<button on:click|preventDefault={() => modal.openModal()}>Show modal</button>
+<button class="button" on:click|preventDefault={() => modal.openModal()}>Show modal</button>
+
 <Modal bind:this={modal} headingText="Hello world">
 	<span>Hello World</span>
 	<button on:click={() => modal.closeModal()}>Close modal</button>

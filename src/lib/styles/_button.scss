@@ -1,0 +1,18 @@
+.button {
+    font-family: var(--font-family);
+    padding: 15px 30px;
+    font-size: 18px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    color: var(--text-dark);
+    background-color: var(--accent-gold);
+    transition: background-color 0.3s, color 0.3s;
+  
+    &:hover {
+      background-color: var(--primary-red);
+      color: var(--text-light);
+    }
+}

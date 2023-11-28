@@ -1,7 +1,8 @@
 <script lang="ts">
     import '$lib/styles/main.scss'
+	import Layout from '$lib/widgets/layouts/main-layout/Layout.svelte';
 </script>
 
-<header>header</header>
-<main><slot /></main>
-<footer>footer</footer>
+<Layout>
+    <slot />
+</Layout>

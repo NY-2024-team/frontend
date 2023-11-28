@@ -1,0 +1,21 @@
+$primary-red: #ff7575;
+$primary-green: #8aff8a;
+$accent-white: #ffffff;
+$accent-gold: #ffd700;
+$background-dark: #1a1a1a;
+$background-light: #f0f0f0;
+$text-dark: #333333;
+$text-light: #ffffff;
+
+:root {
+  --primary-red: #{$primary-red};
+  --primary-green: #{$primary-green};
+  --accent-white: #{$accent-white};
+  --accent-gold: #{$accent-gold};
+  --background-dark: #{$background-dark};
+  --background-light: #{$background-light};
+  --text-dark: #{$text-dark};
+  --text-light: #{$text-light};
+  --background-header: var(--background-dark);
+  --font-family: 'Open Sans', sans-serif;
+}

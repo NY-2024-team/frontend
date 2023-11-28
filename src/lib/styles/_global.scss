@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family);
+}
+
+body {
+    font-family: var(--font-family);
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-light);
+    color: var(--text-dark);
+  }
+  
+  .container {
+    width: 80%;
+    margin: 0 auto;
+  }
+  
+  .section {
+    padding: 40px 0;
+  }
+  
+  .footer {
+    background-color: var(--background-dark);
+    color: var(--text-light);
+    padding: 20px 0;
+    text-align: center;
+  }
+  
+  /* Дополнительные стили для ссылок */
+  a {
+    color: var(--primary-red);
+    text-decoration: none;
+    transition: color 0.3s;
+  
+    &:hover {
+      color: var(--accent-gold);
+    }
+  }
