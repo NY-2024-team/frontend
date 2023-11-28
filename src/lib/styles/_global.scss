@@ -10,8 +10,9 @@ body {
     line-height: 1.6;
     margin: 0;
     padding: 0;
-    background-color: darken($background-light, 15%);
+    background-color: var(--background-dark);
     color: var(--text-dark);
+    z-index: -2;
   }
   
   .container {

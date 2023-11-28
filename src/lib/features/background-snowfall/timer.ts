@@ -12,7 +12,8 @@ export class Timer {
 
     public update() {
         const now = Date.now();
-        const dt = (now - this.last) / 1000;
+        let dt = (now - this.last) / 1000;
+        if(dt > 2) dt = 0.016;
         this._dt = dt;
         this._elapsedTime += dt;
         this.last = now;
