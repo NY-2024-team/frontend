@@ -1,5 +1,10 @@
 <script>
+	import Snowfall from "$lib/features/background-snowfall/Snowfall.svelte";
+	import Content from "./Content.svelte";
 	import Header from "./Header.svelte";
 </script>
+<Snowfall />
 <Header />
-<slot />
+<Content>
+	<slot />
+</Content>

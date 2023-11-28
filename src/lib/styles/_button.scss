@@ -10,9 +10,14 @@
     color: var(--text-dark);
     background-color: var(--accent-gold);
     transition: background-color 0.3s, color 0.3s;
+    white-space: nowrap;
   
     &:hover {
       background-color: var(--primary-red);
       color: var(--text-light);
+    }
+
+    &:active {
+      background-color: darken($primary-red, 10%);
     }
 }
