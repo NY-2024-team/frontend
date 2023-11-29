@@ -1,13 +1,17 @@
 <main class="main_content">
-    <slot />
+	<slot />
 </main>
 
 <style lang="scss">
-    .main_content {
-        background-color: var(--background-light);
-        opacity: 0.95;
-        max-width: 1600px;
-        margin: 0px auto;
-        padding: 1rem;
-    }
+	@mixin background-opacity($color, $opacity: 0.3) {
+		background: $color;
+		background: rgba($color, $opacity);
+	}
+
+	.main_content {
+        @include background-opacity(#f0f0f0, 0.9);
+		max-width: 1600px;
+		margin: 0px auto;
+		padding: 1rem;
+	}
 </style>

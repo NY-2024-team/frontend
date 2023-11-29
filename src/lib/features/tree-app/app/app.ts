@@ -1,10 +1,20 @@
-import {PerspectiveCamera, WebGLRenderer, BoxGeometry, MeshBasicMaterial, Mesh, Scene} from 'three'
+import {
+    Scene,
+    PerspectiveCamera,
+    WebGLRenderer,
+    AmbientLight,
+    PointLight,
+  } from 'three';
+import { christmasTree } from './objects/christmassTree';
+import { TreeToy } from './objects/treeToy';
 
 export class App {
     private camera: PerspectiveCamera;
     private renderer: WebGLRenderer;
     private scene: Scene;
-    private cube: Mesh;
+
+    private toys: TreeToy[] = [];
+
     constructor(target: HTMLElement) {
         const {width, height} = target.getBoundingClientRect();
         this.camera = new PerspectiveCamera(75, width / height, 0.1, 1000);
@@ -12,22 +22,30 @@ export class App {
         this.renderer.setSize(width, height);
         target.appendChild(this.renderer.domElement);
 
-        const geometry = new BoxGeometry( 1, 1, 1 );
-        const material = new MeshBasicMaterial( { color: 0x00ff00 } );
-        const cube = new Mesh( geometry, material );
-        this.cube = cube;
         const scene = new Scene();
         this.scene = scene;
-        scene.add( cube );
+
+        scene.add(christmasTree);
+
+        const ambientLight = new AmbientLight(0xffffff, 0.5);
+        scene.add(ambientLight);
+
+        const pointLight = new PointLight(0xffffff, 0.8);
+        this.camera.add(pointLight);
+        scene.add(this.camera);
 
         this.camera.position.z = 5;
+
+        this.toys.push(new TreeToy());
+        for(const toy of this.toys) {
+            scene.add(toy.group);
+        }
 
         this.animate();
     }
 
     private animate() {
         this.renderer.render(this.scene, this.camera);
-        this.cube.rotateY(0.05)
         window.requestAnimationFrame(this.animate.bind(this))
     }
 }
