@@ -1,5 +1,5 @@
 import { getRandom } from "$lib/shared/helpers";
-import type { Timer } from "./timer";
+import type { Timer } from "../../shared/canvas-engine/timer";
 
 class Position {
     public x: number;

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { Snowfall } from './snowfall';
+	import { Snowfall } from '../snowfall';
 
 	let canvasRef: HTMLCanvasElement;
 	let snowfall: Snowfall | null = null;

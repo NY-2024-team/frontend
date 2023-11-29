@@ -1,23 +1,18 @@
 <nav class="header_navigation">
     <ul>
         <li>
-            <a href="#123">
+            <a href="/">
                 Main page
             </a>
         </li>
         <li>
-            <a href="#123">
+            <a href="/application">
                 Christmass Tree
             </a>
         </li>
         <li>
-            <a href="#123">
+            <a href="/about">
                 About site
-            </a>
-        </li>
-        <li>
-            <a href="#123">
-                Something
             </a>
         </li>
     </ul>

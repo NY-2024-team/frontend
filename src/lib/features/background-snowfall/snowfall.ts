@@ -1,6 +1,6 @@
 import { getRandom } from "$lib/shared/helpers";
 import { Snowflake } from "./snowflake";
-import { Timer } from "./timer";
+import { Timer } from "../../shared/canvas-engine/timer";
 
 export class Snowfall {
 	public canvas: HTMLCanvasElement;

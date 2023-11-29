@@ -1,1 +1,0 @@
-<canvas>Enable JavaScript to run this app</canvas>
