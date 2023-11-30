@@ -12,8 +12,9 @@ export class TreeToy {
 	private createTreeToy(): Group {
 		const toyGroup = new Group();
 
+
 		const ballGeometry = new SphereGeometry(0.2, 16, 16);
-		const ballMaterial = new MeshBasicMaterial({ color: 0xff0000 });
+		const ballMaterial = new MeshBasicMaterial({ color: 0xffff23 });
 		const ball = new Mesh(ballGeometry, ballMaterial);
 		ball.position.y = 0.66;
 		ball.position.x = 0.5;
@@ -24,7 +25,6 @@ export class TreeToy {
 		const rectangle = new Mesh(rectangleGeometry, rectangleMaterial);
 		rectangle.position.copy(ball.position);
 		rectangle.position.y += 0.2;
-
 
 		toyGroup.add(rectangle);
 

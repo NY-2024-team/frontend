@@ -20,11 +20,10 @@ const cone3 = new Mesh(coneGeometry3, coneMaterial3);
 cone3.position.y = 2;
 christmasTree.add(cone3);
 
-const cylinderGeometry = new CylinderGeometry(0.30, 0.30, 1, 16);
+const cylinderGeometry = new CylinderGeometry(0.15, 0.15, 1, 16);
 const cylinderMaterial = new MeshBasicMaterial({ color: 0x996633 });
 const cylinder = new Mesh(cylinderGeometry, cylinderMaterial);
 cylinder.position.y = -1.5;
 christmasTree.add(cylinder);
-
 
 export {christmasTree}

@@ -3,7 +3,7 @@
 	import { App } from '../app/app';
 	let containerRef: HTMLDivElement;
 	let app: App;
-	onMount(() => {
+	onMount(async () => {
 		app = new App(containerRef);
 	});
 </script>
