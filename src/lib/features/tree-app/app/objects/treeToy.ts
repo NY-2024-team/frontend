@@ -12,7 +12,6 @@ export class TreeToy {
 	private createTreeToy(): Group {
 		const toyGroup = new Group();
 
-
 		const ballGeometry = new SphereGeometry(0.2, 16, 16);
 		const ballMaterial = new MeshBasicMaterial({ color: 0xffff23 });
 		const ball = new Mesh(ballGeometry, ballMaterial);
@@ -30,6 +29,7 @@ export class TreeToy {
 
 		toyGroup.add(ball);
 
+		toyGroup.rotateX(-0.25)
 
 		return toyGroup;
 	}
