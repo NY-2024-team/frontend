@@ -5,13 +5,13 @@ import {
 	Vector2,
 	Raycaster,
 	Object3D,
-	MeshBasicMaterial,
 	PCFSoftShadowMap,
     HemisphereLight,
     Color,
+	MeshStandardMaterial,
 } from 'three';
 import { christmasTree } from './objects/christmassTree';
-import { TreeToy } from './objects/treeToy';
+import type { TreeToy } from './objects/treeToy';
 import { browser } from '$app/environment';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { Ground } from './objects/ground';
@@ -30,66 +30,97 @@ export class App {
 	constructor(target: HTMLElement) {
 		if (!browser || typeof window === 'undefined') throw new Error('Something went wrong!');
 		const { width, height } = target.getBoundingClientRect();
-		this.camera = new PerspectiveCamera(75, width / height, 0.1, 30);
-		this.renderer = new WebGLRenderer();
-		this.renderer.setSize(width, height);
-        this.renderer.shadowMap.enabled = true; // Включить тени
-		this.renderer.shadowMap.type = PCFSoftShadowMap; // Тип теней
+		const camera = this.setupCamera(width, height)
+		this.camera = camera;
 
-		target.appendChild(this.renderer.domElement);
+		const renderer = this.setupRenderer(width, height);
+		this.renderer = renderer;
+
+		target.appendChild(renderer.domElement);
 		this.raycaster = new Raycaster();
-		window.addEventListener('click', this.onPointerClick.bind(this));
-		const scene = new Scene();
-        scene.background = new Color(0x87ceeb); 
-		this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-		this.controls.update();
-		this.controls.enablePan = false;
-		this.controls.enableDamping = false;
+		
+		const cotrols = this.setupControls();
+		this.controls = cotrols;
 
+		const scene = this.setupBaseScene(camera)
 		this.scene = scene;
 
-        const hemisphereLight = new HemisphereLight(0xffffff, 0x000000, 0.3);
-        hemisphereLight.position.set(5, 10, 7);
-        // hemisphereLight.castShadow = true;
-        this.scene.add(hemisphereLight);
-
-
-        const ground = new Ground();
-        scene.add(ground.group);
-
-		scene.add(christmasTree);
-		6;
-
-		scene.add(this.camera);
+		this.setupListeners();
 
 		this.camera.position.z = 5;
-		this.camera.position.y = 0;
 		this.camera.lookAt(christmasTree.position);
 
-		this.toys.push(new TreeToy());
-		for (const toy of this.toys) {
-			scene.add(toy.group);
-		}
-
-		this.animate();
+		this.play();
 	}
 
-	private animate() {
+	private setupCamera(width: number, height: number): PerspectiveCamera {
+		const camera = new PerspectiveCamera(75, width / height, 0.1, 30);
+
+		return camera
+	}
+
+	private setupBaseScene(camera: PerspectiveCamera): Scene {
+		const scene = new Scene();
+        scene.background = new Color(0x87ceeb); 
+
+		const hemisphereLight = new HemisphereLight(0xffffff, 0x000000, 0.3);
+        hemisphereLight.position.set(5, 10, 7);
+        scene.add(hemisphereLight);
+
+		const ground = new Ground();
+        scene.add(ground.group);
+		
+		scene.add(christmasTree);
+		scene.add(camera);
+
+		return scene
+	}
+
+	private setupRenderer(width: number, height: number): WebGLRenderer {
+		const renderer = new WebGLRenderer();
+		renderer.setSize(width, height);
+        renderer.shadowMap.enabled = true; 
+		renderer.shadowMap.type = PCFSoftShadowMap; 
+		return renderer
+	}
+
+	private setupListeners(): void {
+		window.addEventListener('click', this.onPointerClick.bind(this));
+	}
+
+	private setupControls(): OrbitControls {
+		const controls = new OrbitControls(this.camera, this.renderer.domElement);
+		controls.update();
+		controls.enablePan = false;
+		controls.enableDamping = false;
+
+		return controls
+	}
+
+	private render() {
+		this.renderer.render(this.scene, this.camera);
+	}
+	private update() {
 		this.controls.update();
+		this.updateIntersections();
+	}
+	private play() {
+		this.render();
+		this.update();
+		window.requestAnimationFrame(this.play.bind(this));
+	}
+
+	private updateIntersections(): void {
 		const intersections = this.raycaster.intersectObjects(this.getObjects(this.scene), false);
 		if (intersections.length > 0) {
 			this.activeItem = intersections?.[0].object ?? null;
 		}
 
 		if (this.activeItem && 'material' in this.activeItem) {
-			if (this.activeItem.material instanceof MeshBasicMaterial   ) {
+			if (this.activeItem.material instanceof MeshStandardMaterial   ) {
 				this.activeItem.material.color.set(0xff0000);
 			}
 		}
-
-		this.renderer.render(this.scene, this.camera);
-
-		window.requestAnimationFrame(this.animate.bind(this));
 	}
 
 	private getObjects(obj: Object3D): Object3D[] {
