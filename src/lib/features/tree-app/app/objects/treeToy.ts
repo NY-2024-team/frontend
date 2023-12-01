@@ -1,5 +1,5 @@
 import { browser } from '$app/environment';
-import { BoxGeometry, Group, Mesh, MeshBasicMaterial, SphereGeometry } from 'three';
+import { BoxGeometry, Group, Mesh, MeshBasicMaterial, SphereGeometry, Texture } from 'three';
 
 export class TreeToy {
 	public group: Group;
@@ -7,6 +7,22 @@ export class TreeToy {
 	constructor() {
         if(!browser) throw new Error('only for browsers!');
 		this.group = this.createTreeToy();
+	}
+
+	private createTexture(): HTMLCanvasElement {
+		const canvas = document.createElement('canvas');
+		canvas.width = 1024;
+		canvas.height = 1024
+		const ctx = canvas.getContext('2d');
+		if(!ctx) throw new Error("Cannot get canvas context!");
+
+		ctx.fillStyle = 'red';
+		ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+		ctx.fillStyle = 'blue';
+		ctx.fillRect(0, (canvas.height / 2 ) - 40, canvas.width, 80)
+
+		return canvas;
 	}
 
 	private createTreeToy(): Group {
@@ -26,6 +42,11 @@ export class TreeToy {
 		rectangle.position.y += 0.2;
 
 		toyGroup.add(rectangle);
+
+		const canvasTexture = this.createTexture();
+		const texture = new Texture(canvasTexture)
+		texture.needsUpdate = true;
+		ball.material.map = texture;
 
 		toyGroup.add(ball);
 

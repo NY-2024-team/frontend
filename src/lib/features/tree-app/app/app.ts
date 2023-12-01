@@ -8,10 +8,9 @@ import {
 	PCFSoftShadowMap,
     HemisphereLight,
     Color,
-	MeshStandardMaterial,
 } from 'three';
 import { christmasTree } from './objects/christmassTree';
-import type { TreeToy } from './objects/treeToy';
+import { TreeToy } from './objects/treeToy';
 import { browser } from '$app/environment';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { Ground } from './objects/ground';
@@ -73,6 +72,9 @@ export class App {
 		scene.add(christmasTree);
 		scene.add(camera);
 
+		this.toys.push(new TreeToy());
+		this.toys.forEach(item => scene.add(item.group))
+
 		return scene
 	}
 
@@ -85,7 +87,7 @@ export class App {
 	}
 
 	private setupListeners(): void {
-		window.addEventListener('click', this.onPointerClick.bind(this));
+		window.addEventListener('mousedown', this.onPointerClick.bind(this));
 	}
 
 	private setupControls(): OrbitControls {
@@ -114,12 +116,6 @@ export class App {
 		const intersections = this.raycaster.intersectObjects(this.getObjects(this.scene), false);
 		if (intersections.length > 0) {
 			this.activeItem = intersections?.[0].object ?? null;
-		}
-
-		if (this.activeItem && 'material' in this.activeItem) {
-			if (this.activeItem.material instanceof MeshStandardMaterial   ) {
-				this.activeItem.material.color.set(0xff0000);
-			}
 		}
 	}
 
