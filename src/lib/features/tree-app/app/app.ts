@@ -93,8 +93,16 @@ export class App {
 	private setupControls(): OrbitControls {
 		const controls = new OrbitControls(this.camera, this.renderer.domElement);
 		controls.update();
-		controls.enablePan = false;
+		controls.cursor = christmasTree.position
+		controls.target = christmasTree.position
+		controls.enablePan = true;
+		controls.maxTargetRadius = 2;
+		controls.minTargetRadius = 3;
 		controls.enableDamping = false;
+		controls.maxPolarAngle = Math.PI / 1.65
+		controls.maxAzimuthAngle = Math.PI
+		controls.maxDistance = 8
+		controls.minPolarAngle = Math.PI / 5
 
 		return controls
 	}
