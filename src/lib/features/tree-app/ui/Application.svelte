@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { App } from '../app/app';
 	import ModalConstructor from './ModalConstructor.svelte';
-	import type { TreeToyProperties } from '../app/objects/treeToy';
+	import type { TreeToyProperties } from '../app/objects/tree-toy';
 	let containerRef: HTMLDivElement;
 	let app: App;
 	let isConstructorOpen = false;
@@ -22,7 +22,6 @@
 <button class="button" on:click={openConstructorModal}>Создать игрушку</button>
 <div bind:this={containerRef} class="canvas_tree_container"></div>
 <ModalConstructor on:finish={handleConstructorFinish} bind:open={isConstructorOpen} />
-<input type="color" />
 <style lang="scss">
 	.canvas_tree_container {
 		height: calc(100vh - 12rem);

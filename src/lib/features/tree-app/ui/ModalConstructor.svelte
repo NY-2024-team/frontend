@@ -2,11 +2,13 @@
 	import Modal from '$lib/features/modal/ui/Modal.svelte';
 	import { createEventDispatcher, tick } from 'svelte';
 	import { Preview } from '../toy-preview/preview';
-	import { TreeToy, type TreeToyProperties } from '../app/objects/treeToy';
+	import { TreeToy, type TreeToyProperties } from '../app/objects/tree-toy';
+	import { LinePattern } from '../app/objects/tree-toy/patterns/line';
 
 	let previewContainer: HTMLDivElement;
 	let previewApp: Preview;
 	let colorPickerContainer: HTMLDivElement;
+	let treeToy: TreeToy;
 	export let open = false;
 
 	interface Events {
@@ -28,39 +30,73 @@
 
 	async function createPreview() {
 		await tick();
-		const treeToy = new TreeToy();
+		treeToy = new TreeToy();
+
+		const linePattern = new LinePattern({
+			count: 1,
+			color: 'gold',
+			lineWidth: 75
+		})
+
+		const linePattern2 = new LinePattern({
+			count: 6,
+			color: 'green',
+			lineWidth: 25,
+			offsetY: 150 / 3
+		})
+
+		const linePattern3 = new LinePattern({
+			count: 6,
+			color: 'red',
+			lineWidth: 25,
+			offsetY: 150 / 2 
+		})
+		
+		const linePattern4 = new LinePattern({
+			count: 6,
+			color: 'olive',
+			lineWidth: 25,
+			offsetY: 150 
+		})
+
+		treeToy.addPattern(linePattern, linePattern2, linePattern3, linePattern4)
 		previewApp = new Preview(previewContainer, treeToy);
-		previewApp.updateToyTexture({ baseColor: 'red', lineColor: 'green', pattern: 'line_triangle' });
+		previewApp.updateToyTexture();
+	}
+
+	function handlePropsChange(props: TreeToyProperties) {
+		treeToy.baseColor = props.baseColor;
+		previewApp.updateToyTexture();
 	}
 
 	$: open && createPreview();
-	$: previewApp && previewApp.updateToyTexture(toyProperties);
+	$: toyProperties && previewApp && handlePropsChange(toyProperties);
 </script>
 
 <Modal bind:open headingText="Конструктор игрушки">
-	<div>
-		<div style="width: 400px; height: 300px;" class="toy_preview" bind:this={previewContainer} />
-		<div class="toy_constructor_instruments">
-			<label class="select">
-				<span>Основной цвет игрушки</span>
-				<select bind:value={toyProperties.baseColor}>
-					<option value="red">Красный</option>
-					<option value="blue">Синий</option>
-				</select>
-			</label>
-
-			<label class="select">
-				<span>Цвет узора</span>
-				<div bind:this={colorPickerContainer} />
-				<select bind:value={toyProperties.lineColor}>
-					<option value="#ff5010">Оранжевый</option>
-					<option value="yellow">Жёлтый</option>
-					<option value="green">Зелёный</option>
-				</select>
-			</label>
-			<button on:click={() => previewApp.downloadTexture(toyProperties)}>Скачать текстуру</button>
-			<button on:click={onFinish}>Завершить созадние</button>
-		</div>
+	<div style="display: flex; gap: 0.5rem;">
+		<section>
+			<div style="width: 400px; height: 300px;" class="toy_preview" bind:this={previewContainer} />
+			<div class="toy_constructor_instruments">
+				<label class="select">
+					<span>Основной цвет игрушки</span>
+					<select bind:value={toyProperties.baseColor}>
+						<option value="red">Красный</option>
+						<option value="blue">Синий</option>
+					</select>
+				</label>
+				<button on:click={() => previewApp.downloadTexture()}>Скачать текстуру</button>
+				<button on:click={onFinish}>Завершить созадние</button>
+			</div>
+		</section>
+		<section style="display: flex; flex-direction: column; gap: 0.25rem;">
+			<span style="border: 1px solid black; padding: 0.25rem; border-radius: 0.5rem;">Pattern 1 info</span>
+			<span style="border: 1px solid black; padding: 0.25rem; border-radius: 0.5rem;">Pattern 2 info</span>
+			<span style="border: 1px solid black; padding: 0.25rem; border-radius: 0.5rem;">Pattern 3 info</span>
+			<span style="border: 1px solid black; padding: 0.25rem; border-radius: 0.5rem;">Pattern 4 info</span>
+			<span style="border: 1px solid black; padding: 0.25rem; border-radius: 0.5rem;">Pattern 5 info</span>
+			<span style="border: 1px solid black; padding: 0.25rem; border-radius: 0.5rem;">Pattern 6 info</span>
+		</section>
 	</div>
 </Modal>
 

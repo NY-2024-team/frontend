@@ -10,7 +10,7 @@ import {
 	Color
 } from 'three';
 import { christmasTree } from './objects/christmassTree';
-import { TreeToy } from './objects/treeToy';
+import type { TreeToy } from './objects/tree-toy/tree-toy';
 import { browser } from '$app/environment';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { Ground } from './objects/ground';
@@ -74,7 +74,6 @@ export class App {
 		scene.add(christmasTree);
 		scene.add(camera);
 
-		this.toys.push(new TreeToy());
 		this.toys.forEach((item) => scene.add(item.group));
 
 		return scene;

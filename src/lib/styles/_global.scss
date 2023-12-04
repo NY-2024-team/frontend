@@ -13,6 +13,7 @@ body {
     background-color: var(--background-dark);
     color: var(--text-dark);
     z-index: -2;
+    min-height: 100vh;
   }
   
   .container {
