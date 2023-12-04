@@ -25,7 +25,7 @@ export class Preview {
         const scene = new Scene();
         this.scene = scene;
         scene.background = new Color(0x87ceeb); 
-        const camera = new PerspectiveCamera(90, width / height, 0.1, 20);
+        const camera = new PerspectiveCamera(45, width / height, 0.1, 20);
         this.camera = camera;
 
         scene.add(camera);

@@ -20,6 +20,7 @@ export class Snowfall {
             this.render();
         });
         resizer.observe(document.body);
+        
         this.resizer = resizer;
         this.setupCanvas();
 
@@ -30,10 +31,11 @@ export class Snowfall {
 	}
 
     private setupCanvas() {
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight;
-        this.canvas.style.width = `${window.innerWidth}px`;
-        this.canvas.style.height = `${window.innerHeight}px`;
+        const {width, height} = document.body.getBoundingClientRect()
+        this.canvas.width = Number(width);
+        this.canvas.height = Number(height);
+        this.canvas.style.width = `${width}px`;
+        this.canvas.style.height = `${height}px`;
     }
 
     private flushSnowflakeArray(): void {

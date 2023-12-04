@@ -3,36 +3,38 @@
 	import { createEventDispatcher, tick } from 'svelte';
 	import { Preview } from '../toy-preview/preview';
 	import { TreeToy, type TreeToyProperties } from '../app/objects/treeToy';
-	
-    let previewContainer: HTMLDivElement;
+
+	let previewContainer: HTMLDivElement;
 	let previewApp: Preview;
+	let colorPickerContainer: HTMLDivElement;
 	export let open = false;
 
-    interface Events {
-        'finish': {toyProperties: TreeToyProperties}
-    }
+	interface Events {
+		finish: { toyProperties: TreeToyProperties };
+	}
 
-    const dispatcher = createEventDispatcher<Events>();
+	const dispatcher = createEventDispatcher<Events>();
 
-    function onFinish() {
-        open = false;
-        dispatcher('finish', {toyProperties})
-    }
+	function onFinish() {
+		open = false;
+		dispatcher('finish', { toyProperties });
+	}
 
-    const toyProperties: TreeToyProperties = {
-        baseColor: "blue",
-        lineColor: 'green'
-    }
+	const toyProperties: TreeToyProperties = {
+		baseColor: 'blue',
+		lineColor: 'green',
+		pattern: 'line_triangle'
+	};
 
 	async function createPreview() {
 		await tick();
 		const treeToy = new TreeToy();
 		previewApp = new Preview(previewContainer, treeToy);
-        previewApp.updateToyTexture({baseColor: 'red', lineColor: 'green'})
+		previewApp.updateToyTexture({ baseColor: 'red', lineColor: 'green', pattern: 'line_triangle' });
 	}
 
 	$: open && createPreview();
-    $: previewApp && previewApp.updateToyTexture(toyProperties)
+	$: previewApp && previewApp.updateToyTexture(toyProperties);
 </script>
 
 <Modal bind:open headingText="Конструктор игрушки">
@@ -40,30 +42,31 @@
 		<div style="width: 400px; height: 300px;" class="toy_preview" bind:this={previewContainer} />
 		<div class="toy_constructor_instruments">
 			<label class="select">
-                <span>Основной цвет игрушки</span>
+				<span>Основной цвет игрушки</span>
 				<select bind:value={toyProperties.baseColor}>
 					<option value="red">Красный</option>
 					<option value="blue">Синий</option>
 				</select>
 			</label>
 
-            <label class="select">
-                <span>Цвет узора</span>
+			<label class="select">
+				<span>Цвет узора</span>
+				<div bind:this={colorPickerContainer} />
 				<select bind:value={toyProperties.lineColor}>
 					<option value="#ff5010">Оранжевый</option>
 					<option value="yellow">Жёлтый</option>
 					<option value="green">Зелёный</option>
 				</select>
 			</label>
-            <button on:click={() => previewApp.downloadTexture(toyProperties)}>Скачать текстуру</button>
-            <button on:click={onFinish}>Завершить созадние</button>
-        </div>
+			<button on:click={() => previewApp.downloadTexture(toyProperties)}>Скачать текстуру</button>
+			<button on:click={onFinish}>Завершить созадние</button>
+		</div>
 	</div>
 </Modal>
 
 <style lang="scss">
-    .select {
-        display: flex;
-        flex-direction: column;
-    }
+	.select {
+		display: flex;
+		flex-direction: column;
+	}
 </style>

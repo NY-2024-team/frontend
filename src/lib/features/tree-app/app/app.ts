@@ -6,8 +6,8 @@ import {
 	Raycaster,
 	Object3D,
 	PCFSoftShadowMap,
-    HemisphereLight,
-    Color,
+	HemisphereLight,
+	Color
 } from 'three';
 import { christmasTree } from './objects/christmassTree';
 import { TreeToy } from './objects/treeToy';
@@ -17,6 +17,7 @@ import { Ground } from './objects/ground';
 
 export class App {
 	private camera: PerspectiveCamera;
+	private target: HTMLElement;
 	private renderer: WebGLRenderer;
 	private scene: Scene;
 	private pointer: Vector2 = new Vector2();
@@ -28,8 +29,9 @@ export class App {
 
 	constructor(target: HTMLElement) {
 		if (!browser || typeof window === 'undefined') throw new Error('Something went wrong!');
+		this.target = target;
 		const { width, height } = target.getBoundingClientRect();
-		const camera = this.setupCamera(width, height)
+		const camera = this.setupCamera(width, height);
 		this.camera = camera;
 
 		const renderer = this.setupRenderer(width, height);
@@ -37,11 +39,11 @@ export class App {
 
 		target.appendChild(renderer.domElement);
 		this.raycaster = new Raycaster();
-		
+
 		const cotrols = this.setupControls();
 		this.controls = cotrols;
 
-		const scene = this.setupBaseScene(camera)
+		const scene = this.setupBaseScene(camera);
 		this.scene = scene;
 
 		this.setupListeners();
@@ -55,56 +57,65 @@ export class App {
 	private setupCamera(width: number, height: number): PerspectiveCamera {
 		const camera = new PerspectiveCamera(75, width / height, 0.1, 30);
 
-		return camera
+		return camera;
 	}
 
 	private setupBaseScene(camera: PerspectiveCamera): Scene {
 		const scene = new Scene();
-        scene.background = new Color(0x87ceeb); 
+		scene.background = new Color(0x87ceeb);
 
 		const hemisphereLight = new HemisphereLight(0xffffff, 0x000000, 0.3);
-        hemisphereLight.position.set(5, 10, 7);
-        scene.add(hemisphereLight);
+		hemisphereLight.position.set(5, 10, 7);
+		scene.add(hemisphereLight);
 
 		const ground = new Ground();
-        scene.add(ground.group);
-		
+		scene.add(ground.group);
+
 		scene.add(christmasTree);
 		scene.add(camera);
 
 		this.toys.push(new TreeToy());
-		this.toys.forEach(item => scene.add(item.group))
+		this.toys.forEach((item) => scene.add(item.group));
 
-		return scene
+		return scene;
 	}
 
 	private setupRenderer(width: number, height: number): WebGLRenderer {
 		const renderer = new WebGLRenderer();
 		renderer.setSize(width, height);
-        renderer.shadowMap.enabled = true; 
-		renderer.shadowMap.type = PCFSoftShadowMap; 
-		return renderer
+		renderer.shadowMap.enabled = true;
+		renderer.shadowMap.type = PCFSoftShadowMap;
+		return renderer;
 	}
 
 	private setupListeners(): void {
-		window.addEventListener('mousedown', this.onPointerClick.bind(this));
+		window.addEventListener('mousedown', this.onPointerClick.bind(this), false);
+		window.addEventListener('resize', this.onWindowResize.bind(this), false);
+	}
+
+	private onWindowResize() {
+		const { width, height } = this.target.getBoundingClientRect();
+		this.camera.aspect = width / height;
+		this.camera.updateProjectionMatrix();
+
+		this.renderer.setSize(width, height);
 	}
 
 	private setupControls(): OrbitControls {
 		const controls = new OrbitControls(this.camera, this.renderer.domElement);
 		controls.update();
-		controls.cursor = christmasTree.position
-		controls.target = christmasTree.position
+		controls.cursor = christmasTree.position;
+		controls.target = christmasTree.position;
 		controls.enablePan = true;
 		controls.maxTargetRadius = 2;
 		controls.minTargetRadius = 3;
 		controls.enableDamping = false;
-		controls.maxPolarAngle = Math.PI / 1.65
-		controls.maxAzimuthAngle = Math.PI
-		controls.maxDistance = 8
-		controls.minPolarAngle = Math.PI / 5
+		controls.maxPolarAngle = Math.PI / 1.65;
+		controls.maxAzimuthAngle = Math.PI;
+		controls.maxDistance = 8;
+		controls.minPolarAngle = Math.PI / 5;
 
-		return controls
+		return controls;
 	}
 
 	private render() {

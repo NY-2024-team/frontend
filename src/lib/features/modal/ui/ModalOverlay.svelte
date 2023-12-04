@@ -20,10 +20,12 @@
         justify-content: center;
         align-items: center;
         
-        width: 100vw;
-        height: 100vh;
+        width: 100svw;
+        height: 100svh;
 
-        position: absolute;
+        box-sizing: border-box;
+
+        position: fixed;
         top: 0px;
         left: 0px;
         background-color: rgba(0, 0, 0, 0.3);

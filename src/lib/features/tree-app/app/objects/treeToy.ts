@@ -1,17 +1,21 @@
 import { browser } from '$app/environment';
 import { BoxGeometry, Group, Mesh, MeshBasicMaterial, SphereGeometry, Texture } from 'three';
+import { drawTriangleWave } from '../toy-textures/triangle-line';
 
 type BaseColor = 'red' | 'blue';
 type LineColor = 'pink' | 'green' | 'yellow'
+export type Patterns = 'line_triangle' | 'line'
 
 export interface TreeToyProperties {
 	baseColor: BaseColor;
 	lineColor: LineColor;
+	pattern: Patterns
 }
 
 const defaultToyProps: TreeToyProperties = {
 	baseColor: 'blue',
-	lineColor: 'green'
+	lineColor: 'green',
+	pattern: 'line_triangle'
 }
 
 export class TreeToy {
@@ -27,16 +31,15 @@ export class TreeToy {
 
 	public createTexture(props: TreeToyProperties): HTMLCanvasElement {
 		const canvas = document.createElement('canvas');
-		canvas.width = 1024;
-		canvas.height = 1024
+		canvas.width = 2048;
+		canvas.height = 2048
 		const ctx = canvas.getContext('2d');
 		if(!ctx) throw new Error("Cannot get canvas context!");
 
 		ctx.fillStyle = props.baseColor;
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-		ctx.fillStyle = props.lineColor;
-		ctx.fillRect(0, (canvas.height / 2 ) - 40, canvas.width, 80)
+		drawTriangleWave(ctx, 20, 100, props.lineColor, 10)
 
 		return canvas;
 	}
