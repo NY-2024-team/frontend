@@ -16,7 +16,7 @@ export class TreeToy {
 	public group: Group;
 	public baseColor: BaseColor = 'blue';
 	private ballMesh: Mesh;
-	private patterns: Pattern[] = [];
+	public patterns: Pattern[] = [];
 
 	constructor() {
 		if (!browser) throw new Error('only for browsers!');

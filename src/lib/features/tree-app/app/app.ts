@@ -7,13 +7,15 @@ import {
 	Object3D,
 	PCFSoftShadowMap,
 	HemisphereLight,
-	Color
+	Color,
+	Clock
 } from 'three';
+import * as THREE from 'three';
 import { christmasTree } from './objects/christmassTree';
 import type { TreeToy } from './objects/tree-toy/tree-toy';
 import { browser } from '$app/environment';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { Ground } from './objects/ground';
+import CameraControls from 'camera-controls';
 
 export class App {
 	private camera: PerspectiveCamera;
@@ -23,12 +25,15 @@ export class App {
 	private pointer: Vector2 = new Vector2();
 	private raycaster: Raycaster;
 	private activeItem: Object3D | null = null;
-	private controls: OrbitControls;
+	private controls: CameraControls;
+	private clock: Clock;
 
 	private toys: TreeToy[] = [];
 
 	constructor(target: HTMLElement) {
 		if (!browser || typeof window === 'undefined') throw new Error('Something went wrong!');
+		CameraControls.install({ THREE: THREE });
+		this.clock = new Clock();
 		this.target = target;
 		const { width, height } = target.getBoundingClientRect();
 		const camera = this.setupCamera(width, height);
@@ -70,6 +75,11 @@ export class App {
 
 		const ground = new Ground();
 		scene.add(ground.group);
+		this.controls.colliderMeshes.push(ground.group);
+
+		this.controls.setPosition(2, 2, 2);
+		const { x, y, z } = christmasTree.position;
+		this.controls.setLookAt(3, 3, 3, x, y, z, true);
 
 		scene.add(christmasTree);
 		scene.add(camera);
@@ -100,20 +110,11 @@ export class App {
 		this.renderer.setSize(width, height);
 	}
 
-	private setupControls(): OrbitControls {
-		const controls = new OrbitControls(this.camera, this.renderer.domElement);
-		controls.update();
-		controls.cursor = christmasTree.position;
-		controls.target = christmasTree.position;
-		controls.enablePan = true;
-		controls.maxTargetRadius = 2;
-		controls.minTargetRadius = 3;
-		controls.enableDamping = false;
-		controls.maxPolarAngle = Math.PI / 1.65;
-		controls.maxAzimuthAngle = Math.PI;
-		controls.maxDistance = 8;
-		controls.minPolarAngle = Math.PI / 5;
-
+	private setupControls(): CameraControls {
+		const controls = new CameraControls(this.camera, this.renderer.domElement);
+		controls.mouseButtons.middle = CameraControls.ACTION.ROTATE;
+		controls.mouseButtons.wheel = CameraControls.ACTION.ZOOM;
+		controls.mouseButtons.right = CameraControls.ACTION.NONE;
 		return controls;
 	}
 
@@ -121,7 +122,7 @@ export class App {
 		this.renderer.render(this.scene, this.camera);
 	}
 	private update() {
-		this.controls.update();
+		this.controls.update(this.clock.getDelta());
 		this.updateIntersections();
 	}
 	private play() {

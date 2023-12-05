@@ -36,30 +36,30 @@
 			count: 1,
 			color: 'gold',
 			lineWidth: 75
-		})
+		});
 
 		const linePattern2 = new LinePattern({
 			count: 6,
 			color: 'green',
 			lineWidth: 25,
 			offsetY: 150 / 3
-		})
+		});
 
 		const linePattern3 = new LinePattern({
 			count: 6,
 			color: 'red',
 			lineWidth: 25,
-			offsetY: 150 / 2 
-		})
-		
-		const linePattern4 = new LinePattern({
-			count: 6,
-			color: 'olive',
-			lineWidth: 25,
-			offsetY: 150 
-		})
+			offsetY: 150 / 2
+		});
 
-		treeToy.addPattern(linePattern, linePattern2, linePattern3, linePattern4)
+		// const linePattern4 = new LinePattern({
+		// 	count: 6,
+		// 	color: 'olive',
+		// 	lineWidth: 25,
+		// 	offsetY: 150
+		// });
+
+		treeToy.addPattern(linePattern, linePattern2, linePattern3);
 		previewApp = new Preview(previewContainer, treeToy);
 		previewApp.updateToyTexture();
 	}
@@ -90,12 +90,13 @@
 			</div>
 		</section>
 		<section style="display: flex; flex-direction: column; gap: 0.25rem;">
-			<span style="border: 1px solid black; padding: 0.25rem; border-radius: 0.5rem;">Pattern 1 info</span>
-			<span style="border: 1px solid black; padding: 0.25rem; border-radius: 0.5rem;">Pattern 2 info</span>
-			<span style="border: 1px solid black; padding: 0.25rem; border-radius: 0.5rem;">Pattern 3 info</span>
-			<span style="border: 1px solid black; padding: 0.25rem; border-radius: 0.5rem;">Pattern 4 info</span>
-			<span style="border: 1px solid black; padding: 0.25rem; border-radius: 0.5rem;">Pattern 5 info</span>
-			<span style="border: 1px solid black; padding: 0.25rem; border-radius: 0.5rem;">Pattern 6 info</span>
+			{#if treeToy}
+				{#each treeToy.patterns as pattern}
+					<span style="border: 1px solid black; padding: 0.25rem; border-radius: 0.5rem;"
+						>{pattern.kind}</span
+					>
+				{/each}
+			{/if}
 		</section>
 	</div>
 </Modal>
