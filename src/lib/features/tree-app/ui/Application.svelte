@@ -2,16 +2,20 @@
 	import { onMount } from 'svelte';
 	import { App } from '../app/app';
 	import ModalConstructor from './ModalConstructor.svelte';
-	import type { TreeToyProperties } from '../app/objects/tree-toy';
+	import type { TreeToy, TreeToyProperties } from '../app/objects/tree-toy';
 	let containerRef: HTMLDivElement;
 	let app: App;
 	let isConstructorOpen = false;
+	let createdToy: null | TreeToy = null
+
+	$: app && app.setCreatedToy(createdToy)
 	onMount(async () => {
 		app = new App(containerRef);
 	});
 
-	function handleConstructorFinish(event: CustomEvent<{toyProperties: TreeToyProperties}>) {
-		console.log("Создание игрушки завершено! Свойства:", event.detail.toyProperties)
+	function handleConstructorFinish(event: CustomEvent<{toyProperties: TreeToyProperties, treeToy: TreeToy}>) {
+		console.log("Создание игрушки завершено! Свойства:", event.detail.toyProperties, event.detail.treeToy)
+		createdToy = event.detail.treeToy
 	}
 
 	function openConstructorModal() {

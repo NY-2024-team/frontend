@@ -12,14 +12,14 @@
 	export let open = false;
 
 	interface Events {
-		finish: { toyProperties: TreeToyProperties };
+		finish: { toyProperties: TreeToyProperties, treeToy: TreeToy };
 	}
 
 	const dispatcher = createEventDispatcher<Events>();
 
 	function onFinish() {
 		open = false;
-		dispatcher('finish', { toyProperties });
+		dispatcher('finish', { toyProperties, treeToy });
 	}
 
 	const toyProperties: TreeToyProperties = {

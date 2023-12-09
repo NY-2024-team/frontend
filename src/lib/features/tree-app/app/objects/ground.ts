@@ -1,24 +1,19 @@
 import { browser } from '$app/environment';
-import { CylinderGeometry, Group, Mesh, MeshStandardMaterial } from 'three';
+import { Group } from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
 
 export class Ground {
 	public group: Group;
+	private loader: GLTFLoader = new GLTFLoader();
 
 	constructor() {
 		if (!browser) throw new Error('only for browsers!');
-		this.group = this.createFloor();
+		this.group = new Group();
+		this.loader.load('new_year_ground.glb', (gltf) => {
+			this.group.add(...gltf.scene.children)
+		})
 	}
 
-	private createFloor(): Group {
-		const floorGroup = new Group();
 
-		const floorGeometry = new CylinderGeometry(50, 50, 0.2); // Ширина, высота, глубина
-		const floorMaterial = new MeshStandardMaterial({ color: 0xffffff });
-		const floor = new Mesh(floorGeometry, floorMaterial);
-		floor.position.y = -2; // Поднимаем немного выше, чтобы не пересекалась с другими объектами
-
-		floorGroup.add(floor);
-
-		return floorGroup;
-	}
 }

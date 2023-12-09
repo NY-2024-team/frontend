@@ -8,7 +8,8 @@ import {
 	PCFSoftShadowMap,
 	HemisphereLight,
 	Color,
-	Clock
+	Clock,
+	Fog
 } from 'three';
 import * as THREE from 'three';
 import { christmasTree } from './objects/christmassTree';
@@ -25,6 +26,7 @@ export class App {
 	private pointer: Vector2 = new Vector2();
 	private raycaster: Raycaster;
 	private activeItem: Object3D | null = null;
+	private createdToy: TreeToy | null = null;
 	private controls: CameraControls;
 	private clock: Clock;
 
@@ -60,14 +62,13 @@ export class App {
 	}
 
 	private setupCamera(width: number, height: number): PerspectiveCamera {
-		const camera = new PerspectiveCamera(75, width / height, 0.1, 30);
+		const camera = new PerspectiveCamera(75, width / height, 0.1, 100);
 
 		return camera;
 	}
 
 	private setupBaseScene(camera: PerspectiveCamera): Scene {
 		const scene = new Scene();
-		scene.background = new Color(0x87ceeb);
 
 		const hemisphereLight = new HemisphereLight(0xffffff, 0x000000, 0.3);
 		hemisphereLight.position.set(5, 10, 7);
@@ -77,23 +78,31 @@ export class App {
 		scene.add(ground.group);
 		this.controls.colliderMeshes.push(ground.group);
 
-		this.controls.setPosition(2, 2, 2);
 		const { x, y, z } = christmasTree.position;
-		this.controls.setLookAt(3, 3, 3, x, y, z, true);
+		this.controls.setLookAt(3, 10, 3, x, y + 3, z, true);
 
 		scene.add(christmasTree);
 		scene.add(camera);
 
 		this.toys.forEach((item) => scene.add(item.group));
 
+		scene.fog = new THREE.FogExp2(0xcccccc, 0.09)
+
 		return scene;
+	}
+
+	public setCreatedToy(toy: TreeToy | null): void {
+		this.createdToy = toy;
 	}
 
 	private setupRenderer(width: number, height: number): WebGLRenderer {
 		const renderer = new WebGLRenderer();
 		renderer.setSize(width, height);
+		renderer.setPixelRatio(window.devicePixelRatio)
 		renderer.shadowMap.enabled = true;
 		renderer.shadowMap.type = PCFSoftShadowMap;
+		renderer.autoClear = false;
+		renderer.domElement.style.backgroundColor = 'rgb(255, 255, 255)';
 		return renderer;
 	}
 
@@ -114,7 +123,7 @@ export class App {
 		const controls = new CameraControls(this.camera, this.renderer.domElement);
 		controls.mouseButtons.middle = CameraControls.ACTION.ROTATE;
 		controls.mouseButtons.wheel = CameraControls.ACTION.ZOOM;
-		controls.mouseButtons.right = CameraControls.ACTION.NONE;
+		// controls.mouseButtons.right = CameraControls.ACTION.NONE;
 		return controls;
 	}
 
@@ -158,6 +167,7 @@ export class App {
 		const intersections = this.raycaster.intersectObjects(this.getObjects(this.scene), true);
 
 		if (intersections.length > 0) {
+			console.log(intersections[0])
 			this.activeItem = intersections[0].object ?? null;
 		}
 	}
