@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Modal from '$lib/features/modal/ui/Modal.svelte';
 	let modal: Modal;
+
 </script>
 
 <div>

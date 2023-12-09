@@ -5,6 +5,7 @@
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
+		"sync": "svelte-kit sync",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
@@ -30,6 +31,7 @@
 	"type": "module",
 	"dependencies": {
 		"@types/three": "^0.158.3",
+		"axios": "^1.6.2",
 		"camera-controls": "^2.7.3",
 		"sass": "^1.69.5",
 		"three": "^0.158.0"
