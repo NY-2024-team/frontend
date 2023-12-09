@@ -21,3 +21,7 @@
 		<button formaction="?/login">Login</button>
 	</form>
 </div>
+
+<style lang="scss">
+	// Стили здесь!
+</style>
