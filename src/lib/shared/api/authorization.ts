@@ -20,15 +20,29 @@ export class Authorization {
         this.service = service
     }
 
-    async login(username: string, password: string): Promise<ApiResponse<User | null>> {
+    public async login(username: string, password: string): Promise<ApiResponse<{user: User, token: string} | null>> {
         try {
             const response = await this.service.api.post(
                 '/auth/login',
                 { username, password }
             );
+            const cookie = response.headers["set-cookie"]
+            console.log(cookie)
 
             return { data: response.data };
         } catch (error) {
+            if (error instanceof Error) { console.error('Error during login:', error?.message); }
+            return { data: null, error: 'Error during login' };
+        }
+    }
+
+    public async register(username: string, password: string): Promise<ApiResponse<User | null>> {
+        try {
+            const response = await this.service.api.post('/auth/register', { username, password })
+
+            return { data: response.data }
+        }
+        catch (error) {
             if (error instanceof Error) { console.error('Error during login:', error?.message); }
             return { data: null, error: 'Error during login' };
         }
