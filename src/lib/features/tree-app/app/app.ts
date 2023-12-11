@@ -7,9 +7,7 @@ import {
 	Object3D,
 	PCFSoftShadowMap,
 	HemisphereLight,
-	Color,
 	Clock,
-	Fog
 } from 'three';
 import * as THREE from 'three';
 import { christmasTree } from './objects/christmassTree';
@@ -93,6 +91,9 @@ export class App {
 
 	public setCreatedToy(toy: TreeToy | null): void {
 		this.createdToy = toy;
+		if (toy) {
+			this.scene.add(toy.group)
+		}
 	}
 
 	private setupRenderer(width: number, height: number): WebGLRenderer {
@@ -107,8 +108,9 @@ export class App {
 	}
 
 	private setupListeners(): void {
-		window.addEventListener('mousedown', this.onPointerClick.bind(this), false);
-		window.addEventListener('resize', this.onWindowResize.bind(this), false);
+		this.renderer.domElement.addEventListener('mousedown', this.onPointerClick.bind(this), false);
+		this.renderer.domElement.addEventListener('mousemove', this.onPointerMove.bind(this), false)
+		this.renderer.domElement.addEventListener('resize', this.onWindowResize.bind(this), false);
 	}
 
 	private onWindowResize() {
@@ -159,8 +161,8 @@ export class App {
 	}
 
 	private onPointerClick(event: MouseEvent) {
-		this.pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
-		this.pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
+		this.pointer.x = (event.offsetX / this.renderer.domElement.width) * 2 - 1;
+		this.pointer.y = -(event.offsetY / this.renderer.domElement.height) * 2 + 1;
 
 		this.raycaster.setFromCamera(this.pointer, this.camera);
 
@@ -169,6 +171,27 @@ export class App {
 		if (intersections.length > 0) {
 			console.log(intersections[0])
 			this.activeItem = intersections[0].object ?? null;
+		}
+	}
+
+	private onPointerMove(event: MouseEvent) {
+		this.pointer.x = (event.offsetX / this.renderer.domElement.width) * 2 - 1;
+		this.pointer.y = -(event.offsetY / this.renderer.domElement.height) * 2 + 1;
+
+		this.raycaster.setFromCamera(this.pointer, this.camera);
+
+		const intersections = this.raycaster.intersectObjects(this.getObjects(this.scene), true);
+		if (!this.createdToy) return;
+
+		if (intersections.length > 0) {
+			const intersected = intersections.find(item => item.object.name === 'tree_top')
+
+			if (!intersected) return;
+			const { x, y, z } = intersected.point
+			const treeIds = christmasTree.children.map(item => item.id)
+			if (treeIds.includes(intersected.object.id)) {
+				this.createdToy.group.position.set(x, y, z)
+			}
 		}
 	}
 }
