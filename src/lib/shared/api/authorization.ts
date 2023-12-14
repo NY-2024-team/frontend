@@ -1,4 +1,5 @@
 import type { BackendService } from "./backend-service";
+import type { AxiosRequestConfig } from 'axios'
 
 interface ApiResponse<T> {
     data: T | null;
@@ -48,11 +49,19 @@ export class Authorization {
         }
     }
 
-    public async check(): Promise<ApiResponse<User | null>> {
+    public async check(cookie?: string): Promise<ApiResponse<User | null>> {
         try {
-            const response = await this.service.api.get('auth/check')
+            let config: AxiosRequestConfig | undefined = undefined
+            if (cookie) {
+                config = {
+                    headers: {
+                        Cookie: `auth=${cookie};`
+                    }
+                }
+            }
 
-            return { data: response.data }
+            const response = await this.service.api.get('auth/check', config)
+            return { data: response.data.user }
         }
         catch (error) {
             if (error instanceof Error) { console.error('Error during login:', error?.message); }
