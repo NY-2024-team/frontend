@@ -9,6 +9,7 @@
 	$: console.log({data, form})
 
     onMount(() => {
+        console.log("Я очень важное изменение, пустите меня в гит")
     })
 </script>
 
