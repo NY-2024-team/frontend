@@ -74,6 +74,7 @@ export class TreeToy {
 
 		const ballMaterial = new MeshBasicMaterial({ color: 0xffff23 });
 		const ball = new Mesh(ballGeometry, ballMaterial);
+		ball.name = 'tree_toy'
 		toyGroup.position.y = 0.66;
 		toyGroup.position.x = 0.5;
 		toyGroup.position.z = 0.5;

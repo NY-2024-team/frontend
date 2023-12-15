@@ -14,7 +14,6 @@
 	});
 
 	function handleConstructorFinish(event: CustomEvent<{toyProperties: TreeToyProperties, treeToy: TreeToy}>) {
-		console.log("Создание игрушки завершено! Свойства:", event.detail.toyProperties, event.detail.treeToy)
 		createdToy = event.detail.treeToy
 	}
 
