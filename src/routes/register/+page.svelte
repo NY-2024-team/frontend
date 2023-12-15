@@ -1,15 +1,10 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { onMount } from 'svelte';
 	import type { PageData, ActionData } from './$types';
 
 	export let data: PageData;
 
 	export let form: ActionData;
-	$: console.log({data, form})
-
-    onMount(() => {
-    })
 </script>
 
 <form method="POST" action="?/login" use:enhance>
@@ -74,7 +69,7 @@ input[type="login"]::-webkit-input-placeholder {
 input[type="password"]::-webkit-input-placeholder {
     color: white;
 };
-.button {
+.not_a_button {
     width: 150px;
     height: 40px;
     background-color: #110229;
@@ -90,7 +85,7 @@ input[type="password"]::-webkit-input-placeholder {
     transition: 1s;
 };
 
-button:hover {
+.not_a_button:hover {
     background-color: white;
     color: #333333;
     transition: 1s;

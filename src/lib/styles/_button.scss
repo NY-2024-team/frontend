@@ -1,23 +1,56 @@
 .button {
-    font-family: var(--font-family);
-    padding: 15px 30px;
-    font-size: 18px;
-    text-align: center;
-    text-decoration: none;
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-    color: var(--text-dark);
-    background-color: var(--accent-gold);
-    transition: background-color 0.3s, color 0.3s;
-    white-space: nowrap;
-  
-    &:hover {
-      background-color: var(--primary-red);
-      color: var(--text-light);
-    }
+	font-family: var(--font-family);
+	font-size: 18px;
+	text-align: left;
+	text-decoration: none;
+	cursor: pointer;
+	border: none;
+	border-radius: 0.5rem;
+	color: var(--text-dark);
+	background-color: var(--accent-gold);
+	transition:
+		background-color 0.3s,
+		color 0.3s;
+	white-space: nowrap;
+	margin-top: 0.5rem;
+	margin-bottom: 0.5rem;
+  max-width: 20rem;
 
-    &:active {
-      background-color: darken($primary-red, 10%);
-    }
+  $padding-left: 1rem;
+  padding-left: $padding-left;
+
+  &-lg {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-right: 2rem;
+  }
+
+	&-md {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-right: 1rem;
+	}
+
+  &-sm {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    padding-right: 0.5rem;
+  }
+
+  // default
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-right: 2rem;
+
+
+	&:hover {
+		background-color: var(--primary-red);
+		color: var(--text-light);
+	}
+
+	&:active {
+		background-color: darken($primary-red, 10%);
+	}
+
+
 }

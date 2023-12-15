@@ -1,14 +1,11 @@
 <script lang="ts">
+	import { sessionModel } from '$lib/entities/session/model/session-model';
     import '$lib/styles/main.scss'
 	import Layout from '$lib/widgets/layouts/main-layout/Layout.svelte';
-	import { onMount } from 'svelte';
-	import type { LayoutData } from './$types';
-	import { sessionModel } from '$lib/entities/session/model/session-model';
-    export let data: LayoutData;
+	import type { PageData } from './$types';
 
-    onMount(() => {
-        sessionModel.set(data.user)
-    })
+    export let data: PageData
+    sessionModel.set(data.user)
 </script>
 
 <Layout>
