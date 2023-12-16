@@ -1,0 +1,38 @@
+.text_input {
+    width: 15rem;
+    height: 1.5rem;
+    border-radius: 0.5rem;   
+    color: white;
+    background-color: #110229;;
+    font-size: 1rem;
+    font-family: Arial, sans-serif;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    transition: 0.3s;
+    border: none;
+};
+
+.input-group {
+    display: flex;
+    position: relative;
+    align-items: center;
+    margin-top: 1.5rem;
+    color: white;
+};
+
+.text_input[type="login"]::-webkit-input-placeholder {
+    color: white;
+};
+
+.text_input[type="password"]::-webkit-input-placeholder {
+    color: white;
+};
+
+.text_input:hover {
+    background-color: white; 
+    color: #333333;
+    transition: 0.3s;
+};
+
+::-webkit-input-placeholder { 
+    color: #333333;
+};

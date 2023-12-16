@@ -17,10 +17,18 @@
     <div class="container">
         <h1>Авторизация</h1>
         <div class="input-group">
-            <input name="username" type="login" placeholder="Введите логин" />
+            <label class="text_label">
+                <span>Введите логин</span>
+                <br>
+                <input class="text_input" autocomplete="off" name="username" id="login" type="login">
+            </label>
         </div>
         <div class="input-group">
-            <input name="password" type="password" placeholder="Введите пароль" />
+            <label class="text_label">
+                <span>Введите пароль</span>
+                <br>
+                <input class="text_input" autocomplete="off" name="password" id="password" type="password">
+            </label>
         </div>
         <button class="button" type="submit">Войти</button>
 		{#if form && form.error}
@@ -32,8 +40,8 @@
 <style lang="scss">
 
 .container {
-    width: 600px;
-    height: 500px;
+    width: 37.5rem;
+    height: 31.25rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -41,64 +49,37 @@
 };
 
 h1 { 
-    font-size: 25px;
+    font-size: 1.5rem;
     color: #333333;
-}
-
-.input-group {
-    margin-top: 25px;
-    color: white;
 };
 
-input {
-    width: 250px;
-    height: 30px;
-    border-radius: 10px;   
-    color: white;
-    background-color: #110229;;
-    font-size: 16px;
-    font-family: Arial, sans-serif;
-    padding: 5px 15px 5px 15px;
-    transition: 1s;
-};
-
-input:hover {
-    background-color: white; 
-    color: #333333;
-    transition: 1s;
-};
-
-input[type="login"]::-webkit-input-placeholder {
-    color: white;
-};
-
-input[type="password"]::-webkit-input-placeholder {
-    color: white;
-};
 .button {
-    width: 150px;
-    height: 40px;
+    width: 9rem;
+    height: 2.5rem;
     background-color: #110229;
-    border-radius: 10px;
+    border-radius: 0.6rem;
     color: white;
-    font-size: 16px;
+    font-size: 1rem;
     font-family: Arial, sans-serif;
     cursor: pointer;
-    padding: 5px;
-    font-size: 16px;
+    padding: 0.25rem;
     text-align: center;
-    margin-top: 15px;
-    transition: 1s;
+    margin-top: 2rem;
+    transition: 0.3s;
 };
 
 button:hover {
     background-color: white;
     color: #333333;
-    transition: 1s;
+    transition: 0.3s;
 };
 
 .error {
     color: red;
+};
+
+.text_label {
+    color: black;
 };
 
 </style>
